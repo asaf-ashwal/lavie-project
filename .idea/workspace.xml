@@ -24,7 +24,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.asaf.test.executor": "Run",
+    "Python.data_org.executor": "Run",
     "Python.david.test.executor": "Run",
+    "Python.info_collection.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true"
