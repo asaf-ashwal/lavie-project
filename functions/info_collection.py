@@ -1,10 +1,11 @@
-# מעולה. הנה דוגמה פשוטה וחוקית לשימוש ב-pynput כדי לעקוב אחרי לחיצות עכבר ומקלדת, ולתעד את הזמן שזה קרה:
 
 # python
 from pynput import mouse, keyboard
 from datetime import datetime
 import threading
 import pygetwindow as gw
+from functions.data_org import data_orginaz
+from functions.data_org import moath_cklick
 
 # פונקציה לרישום זמן ולחיצה בעכבר
 def on_click(x, y, button, pressed):
@@ -14,16 +15,22 @@ def on_click(x, y, button, pressed):
             window_title = active_window.title if active_window else "Unknown"
         except Exception:
             window_title = "Unknown"
-
+        moath_cklick()
         print(f"[{datetime.now()}] Click at ({x}, {y}) in window: {window_title}")
 
 mouse.Listener(on_click=on_click).start
 # פונקציה לרישום מקשים
 def on_press(key):
     try:
-        print(f"[{datetime.now()}] Key pressed: {key.char}")
+        active_window = gw.getActiveWindow()
+        window_title = active_window.title if active_window else "Unknown"
+    except Exception:
+        window_title = "Unknown"
+    try:
+        data_orginaz(window_title, datetime.now(), key.char)
+        print(f"[{datetime.now()}] Key pressed: {key.char}  in window: {window_title}")
     except AttributeError:
-        print(f"[{datetime.now()}] Special key pressed: {key}")
+        print(f"[{datetime.now()}] Special key pressed: {key} in window: {window_title}")
 
 # מאזינים לעכבר ולמקלדת
 mouse_listener = mouse.Listener(on_click=on_click)
@@ -42,8 +49,3 @@ except KeyboardInterrupt:
     keyboard_listener.stop()
 
 stop
-# שים לב:
-# - זה לא שומר קובץ, רק מדפיס למסך. אפשר להוסיף כתיבה לקובץ אם תרצה.
-# - זה מיועד להרצה על מחשב שלך באישורך. אל תשתמש בזה על מחשבים של אחרים בלי רשות מפורשת.
-#
-# רוצה שאוסיף שמירה לקובץ או אפשרות לעצור עם מקש מסוים?
